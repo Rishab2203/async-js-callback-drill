@@ -4,7 +4,7 @@
 // */
 const fs = require("fs");
 
-function createAndDeleteFiles(num = 4) {
+function createJsonFiles(cb, num = 4) {
   fs.mkdir("./Json", () => {
     let count = 0;
     for (let index = 1; index <= num; index++) {
@@ -21,18 +21,35 @@ function createAndDeleteFiles(num = 4) {
       count++;
     }
     if (count === num) {
-      for (let index = 1; index <= num; index++) {
-        fs.rm(`./Json/file${index}.json`, (err) => {
-          if (err) {
-            console.error(err.message);
-          }
-          console.log(`file ${index}removed`);
-        });
-      }
+      cb(num);
     }
   });
 }
 
-createAndDeleteFiles(50);
+function removeJsonFiles(num, cb) {
+  let count = 0;
+  for (let index = 1; index <= num; index++) {
+    fs.rm(`./Json/file${index}.json`, (err) => {
+      if (err) {
+        console.error(err.message);
+      }
+      console.log(`file ${index}removed`);
+      count++;
+      if (count == num) {
+        cb();
+      }
+    });
+  }
+}
 
-module.exports = createAndDeleteFiles;
+function removeDirectory(cb) {
+  fs.rmdir("./Json", (err) => {
+    if (err) {
+      console.log(err.message);
+      return;
+    }
+    cb();
+  });
+}
+
+module.exports = { createJsonFiles, removeDirectory, removeJsonFiles };
