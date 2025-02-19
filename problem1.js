@@ -4,7 +4,7 @@
 // */
 const fs = require("fs");
 
-function createAndDeleteFiles(num) {
+function createAndDeleteFiles(num = 4) {
   fs.mkdir("./Json", () => {
     let count = 0;
     for (let index = 1; index <= num; index++) {
