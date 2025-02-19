@@ -23,7 +23,7 @@ function readFiles(cb) {
   });
 }
 
-function ChangeToUpper(data, cb) {
+function changeToUpper(data, cb) {
   fs.writeFile("./upperCase.txt", data.toUpperCase(), (err) => {
     if (err) {
       console.error(err.message);
@@ -135,7 +135,7 @@ function removeFiles() {
 
 readFiles((data) => {
   console.log("file read completed");
-  ChangeToUpper(data, () => {
+  changeToUpper(data, () => {
     console.log("changed to upper and file created");
     splitAndChangeToLowerCase(data, () => {
       console.log("changed to lower splited and created ");
@@ -148,94 +148,9 @@ readFiles((data) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function readFileAndmanipulate() {
-  fs.readFile("./lipsum.txt", (err, data) => {
-    if (err) {
-      console.error(err.message);
-      return;
-    }
-    fs.writeFile("./upperCase.txt", data.toString().toUpperCase(), (err) => {
-      if (err) {
-        console.error(err.message);
-        return;
-      }
-      console.log("upeerCase file created");
-      fs.writeFile("./filenames.txt", "upperCase.txt\n", (err) => {
-        if (err) {
-          console.error(err.message);
-          return;
-        }
-        console.log("file name added");
-        fs.readFile("./upperCase.txt", (err, data) => {
-          if (err) {
-            console.error(err.message);
-            return;
-          }
-          let sentences = data
-            .toString()
-            .toLowerCase()
-            .split(". ")
-            .map((line) => line.trim() + ".");
-          let processedData = sentences.join("\n");
-
-          fs.writeFile("./lowerCase.txt", processedData, (err) => {
-            if (err) {
-              console.error(err.message);
-              return;
-            }
-            console.log("lowerCase file created");
-            fs.appendFile("./filenames.txt", "lowerCase.txt\n", (err) => {
-              if (err) {
-                console.error(err.message);
-                return;
-              }
-              console.log("file name Added");
-
-              fs.readFile("./lowerCase.txt", (err, data) => {
-                if (err) {
-                  console.error(err.message);
-                  return;
-                }
-                let processedData = data
-                  .toString()
-                  .split("\n")
-                  .sort()
-                  .join("\n");
-                fs.writeFile("./sort.txt", processedData, (err) => {
-                  if (err) {
-                    console.error(err.message);
-                    return;
-                  }
-                  console.log("sort file Crreated");
-                  fs.appendFile("./filenames.txt", "sort.txt", (err) => {
-                    if (err) {
-                      console.error(err.message);
-                      return;
-                    }
-                    console.log("file name addded");
-                    fs.readFile("./filenames.txt", (err, data) => {
-                      let files = data.toString().split("\n");
-                      files.forEach((file) => {
-                        fs.rm(file, (err) => {
-                          if (err) {
-                            console.error(err.message);
-                            return;
-                          }
-                          console.log(`${file} deleted`);
-                        });
-                      });
-                    });
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-}
-
-// readFileAndmanipulate();
-
-module.exports = readFileAndmanipulate;
+module.exports = {
+  readFiles,
+  changeToUpper,
+  splitAndChangeToLowerCase,
+  removeFiles,
+};
