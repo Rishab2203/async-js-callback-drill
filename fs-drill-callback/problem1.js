@@ -52,4 +52,5 @@ function removeDirectory(cb) {
   });
 }
 
+// sample();
 module.exports = { createJsonFiles, removeDirectory, removeJsonFiles };

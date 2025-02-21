@@ -14,7 +14,7 @@ const fs = require("fs");
 // 1. Read the given file lipsum.txt
 
 function readFiles(cb) {
-  fs.readFile("./lipsum.txt", (err, data) => {
+  fs.readFile("../lipsum.txt", (err, data) => {
     if (err) {
       console.error(err.message);
       return;
@@ -29,13 +29,12 @@ function changeToUpper(data, cb) {
       console.error(err.message);
       return;
     }
-    console.log("file created");
+
     fs.writeFile("./filenames.txt", "upperCase.txt\n", (err) => {
       if (err) {
         console.error(err.message);
         return;
       }
-      console.log("file name Added");
     });
   });
   cb(data);
@@ -60,7 +59,7 @@ function splitAndChangeToLowerCase(data, cb) {
         console.error(err.message);
         return;
       }
-      console.log("file name Added");
+
       cb();
     });
   });
@@ -133,19 +132,6 @@ function removeFiles() {
   });
 }
 
-readFiles((data) => {
-  console.log("file read completed");
-  changeToUpper(data, () => {
-    console.log("changed to upper and file created");
-    splitAndChangeToLowerCase(data, () => {
-      console.log("changed to lower splited and created ");
-      readFilesAndSort(() => {
-        removeFiles();
-      });
-    });
-  });
-});
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = {
@@ -153,4 +139,5 @@ module.exports = {
   changeToUpper,
   splitAndChangeToLowerCase,
   removeFiles,
+  readFilesAndSort,
 };
